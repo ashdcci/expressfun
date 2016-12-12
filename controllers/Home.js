@@ -141,10 +141,6 @@ home.prototype.editProfile = function(req,res,next){
 		}else{
 			//  update data model call start
 
-
-			console.log(tomodel);
-			return;
-
 			model.editProfile(tomodel,function(err,row){
 				if(err) throw err;
 				getSingleUser(access_token,res);

@@ -15,7 +15,7 @@
 
 	home_model.prototype.single_user = function(data,callback){
 		sql = "select id,fname,lname,date_format(created_at,'%b %d, %Y') as dt from users where id ="+data.id+" ";
-	console.log(sql,data);
+		console.log(sql,data);
 	// return;
 		// this.execute(sql,callback);
 	};

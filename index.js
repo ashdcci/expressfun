@@ -33,6 +33,7 @@ mailer.extend(app, {
   }
 });
 app.set('superSecret','b1N3xXrpwNPrsLZH2GmCa95TbuU6hvvKQYVDcKSKrg4PfiOCm_X8A5G_hpLvTmD_');
+app.set('post_image_path','http://localhost:8082/images/');
 app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 app.use(expressValidator());

@@ -3,6 +3,7 @@ module.exports = function(app){
 	//Controllers++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	var homeController     	= require('../controllers/Home');
 	var authController     	= require('../controllers/AuthController');
+	var venueController = require('../controllers/VenueController');
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // console.log(app);
 	//Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -10,7 +11,7 @@ module.exports = function(app){
 	app.get('/', homeController.main);
 	app.get('/reset_password/:token',authController.resetPassword);
 	app.post('/updatePassword',authController.updateForgotPassword);
-	app.use(function(req, res, next) {
+	app.use('/api/',function(req, res, next) {
 
 	  // check header or url parameters or post parameters for token
 	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -29,7 +30,6 @@ module.exports = function(app){
 	    });
 	  } else {
 
-			AuthController.checkToken;
 
 	    // if there is no token
 	    // return an error
@@ -51,6 +51,10 @@ module.exports = function(app){
 	app.get('/token',authController.generateToken);
 	app.post('/api/edit-profile',homeController.editProfile);
 	/*auth routes end */
+
+	/* venue routes start */
+	app.post('/api/add-post',venueController.addPostVenue);
+	/* venue routes end */
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 }
