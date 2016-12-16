@@ -11,6 +11,7 @@ module.exports = function(app){
 	app.get('/', homeController.main);
 	app.get('/reset_password/:token',authController.resetPassword);
 	app.post('/updatePassword',authController.updateForgotPassword);
+	app.post('/upload_s3',homeController.upload_s3);
 	app.use('/api/',function(req, res, next) {
 
 	  // check header or url parameters or post parameters for token

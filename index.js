@@ -12,6 +12,10 @@ var fileUpload = require('express-fileupload');
 var mailer = require('express-mailer');
 var jwt = require('jsonwebtoken');
 var morgan      = require('morgan');
+var schedule = require('node-schedule');
+var Upload = require('s3-uploader');
+var AWS = require('aws-sdk');
+var fs = require('fs');
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //Uses+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -33,6 +37,9 @@ mailer.extend(app, {
   }
 });
 app.set('superSecret','b1N3xXrpwNPrsLZH2GmCa95TbuU6hvvKQYVDcKSKrg4PfiOCm_X8A5G_hpLvTmD_');
+app.set('AWS_KEY','AKIAIKWFTGIQWNM4PYFA');
+app.set('AWS_SECRET','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');
+app.set('AWS_PATH','https://s3-us-west-2.amazonaws.com/powwowapi/uploads/');
 app.set('post_image_path','http://localhost:8082/images/');
 app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
@@ -44,8 +51,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 var routes                	= require('./config/routes')(app);
+var client = require('./config/filesystem')(app);
+app.set('client',client);
+AWS.config.update({ accessKeyId: app.get('AWS_KEY'), secretAccessKey: app.get('AWS_SECRET') });
+app.set('fs',fs);
+
+// app.set('AWS',AWS);
+// console.log(new AWS.S3());
 //Create-server++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-http.createServer(app).listen(8082,function(){
+http.createServer(app).listen(8081,function(){
   console.log("Connected & Listen to port 8082");
 });
+
+var j = schedule.scheduleJob('* * * * *', function(){
+  console.log('The answer to life, the universe, and everything!');
+});
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+/*
+aws bucket config
+'s3' => [
+			'driver' => 's3',
+			'key'    => env('AWS_KEY'),
+			'secret' => env('AWS_SECRET'),
+			'region' => 'us-west-2',
+			'bucket' => 'powwowapi',
+		],
+
+    AWS_KEY=AKIAIKWFTGIQWNM4PYFA
+    AWS_SECRET=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
+    AWS_PATH=https://s3-us-west-2.amazonaws.com/powwowapi/uploads/
+
+ */

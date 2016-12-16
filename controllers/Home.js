@@ -7,7 +7,7 @@ function home(){
 	model 	= require('../models/home_model');
 };
 home.prototype.constructor = home;
-
+var AWS = require('aws-sdk');
 
 home.prototype.main = function(req,res){
 	return res.render('index',{token:'hhihcsdihuihjkndvkjsnkjhuoihsdkjvbkjh'});
@@ -74,6 +74,58 @@ home.prototype.uploadData = function(req, res){
             res.send('File uploaded!');
         }
     });
+}
+
+home.prototype.upload_s3 = function(req, res, next){
+	if (!req.files) {
+			res.send('No files were uploaded.');
+			return;
+	}
+	// console.log(req.app.get('client'));
+	// return;
+	sampleFile = req.files.image;
+	var ext = getExtension(sampleFile.name);
+	fileName = Math.floor((Math.random() * 10000000) + 1)+'.'+ext;
+	sampleFile.mv('public/images/'+fileName, function(err) {
+			if (err) {
+				console.log(err);
+				return res.json({status:0,msg:'problam in uplaoding files.'});
+			}
+			else {
+				// req.app.get('client').upload('public/images/'+fileName, {}, function(err, versions, meta) {
+				// 	if (err) { console.log(err);return res.json({status:0,msg:'problam in uplaoding files to S3.'}); }
+				//
+				// 	versions.forEach(function(image) {
+				// 		console.log(image.width, image.height, image.url);
+				// 		// 1024 760 https://my-bucket.s3.amazonaws.com/path/110ec58a-a0f2-4ac4-8393-c866d813b8d1.jpg
+				// 	});
+				// });
+
+
+				req.app.get('fs').readFile('public/images/'+fileName, function (err, data) {
+					  if (err) { throw err; }
+
+					  var base64data = new Buffer(data, 'binary');
+					  var s3 = new AWS.S3();
+					  s3.putObject({
+					    Bucket: 'powwowapi/uploads',
+					    Key: fileName,
+					    Body: base64data,
+					    ACL: 'public-read-write'
+					  },function (resp) {
+					    console.log(arguments,resp);
+							return res.json({status:1,msg:'Successfully uploaded package.',filepath:res.app.get('AWS_PATH')+fileName});
+
+					  });
+
+					});
+
+
+
+			}
+	});
+
+
 }
 
 function getExtension(filename) {

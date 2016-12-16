@@ -39,10 +39,10 @@ app.use(errorHandler);
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// parse application/x-www-form-urlencoded 
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
- 
-// parse application/json 
+
+// parse application/json
 app.use(bodyParser.json())
 app.use(multer({
   dest: __dirname + '/public/',
@@ -73,7 +73,7 @@ if ('development' == app.get('env')) {
 		})
 
 	connection.connect()
-// }	
+// }
 
 
 /* connection object creation end */
@@ -179,7 +179,7 @@ function errorHandler (err, req, res, next) {
 // // })
 
 // app.post('/upload', upload.single('file'), function(req, res) {
-	
+
 
 //   if (req.files) {
 //     console.log(req.files);
