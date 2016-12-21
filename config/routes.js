@@ -55,6 +55,8 @@ module.exports = function(app){
 
 	/* venue routes start */
 	app.post('/api/add-post',venueController.addPostVenue);
+	app.get('/api/fetch-single-post/:venue_id/:id',venueController.fetchSinglePostVenue);
+	app.get('/api/fetch-all-post/:venue_id',venueController.fetchSinglePostVenue);
 	/* venue routes end */
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

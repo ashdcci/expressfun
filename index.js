@@ -16,6 +16,7 @@ var schedule = require('node-schedule');
 var Upload = require('s3-uploader');
 var AWS = require('aws-sdk');
 var fs = require('fs');
+var redis = require('redis');
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //Uses+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -66,6 +67,22 @@ http.createServer(app).listen(8081,function(){
 var j = schedule.scheduleJob('* * * * *', function(){
   console.log('The answer to life, the universe, and everything!');
 });
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+// redis server config+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+var redisClient = redis.createClient({host : 'localhost', port : 6379});
+
+redisClient.on('ready',function() {
+ console.log("Redis is ready");
+});
+
+redisClient.on('error',function() {
+ console.log("Error in Redis");
+});
+
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 

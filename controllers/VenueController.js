@@ -141,5 +141,80 @@ var crypto    = require('crypto');
 
   }
 
+// fetch single post
+
+  venue.prototype.fetchSinglePostVenue = function(req, res, next){
+    var schema = {
+      'id': {
+        notEmpty: true,
+        errorMessage: 'id field is required' // Error message for the parameter
+      },
+      'venue_id': {
+        notEmpty: true,
+        errorMessage: 'venue id field is required' // Error message for the parameter
+      },
+
+    };
+    req.checkParams(schema);
+    var errors = req.validationErrors();
+    if(errors){
+      res.json({ status: 0, messages: errors[0] });
+      return;
+    }
+    // return;
+    var id = req.params.id;
+    tomodel.id = id;
+    tomodel.venue_id = req.params.venue_id;
+    tomodel.image_path = req.app.get('post_image_path');
+
+    var data = [];
+    model.fetchSinglePostVenue(tomodel,function(err, rows){
+      console.log('rows=> '+rows);
+      // if(rows.length > 0){
+      //   data = rows;
+      // }
+      return res.json({status:1,data:rows});
+    });
+
+  }
+
+  // fetch all post venue
+
+
+  venue.prototype.fetchAllPostVenue = function(req, res, next){
+    // validation start
+    var schema = {
+      'venue_id':{
+        notEmpty: true,
+        errorMessage:'venue id field is required'
+      }
+    };
+
+    req.checkParams(schema);
+    var errors = req.validationErrors();
+    if(errors){
+      res.json({ status: 0, messages: errors[0] });
+      return;
+    }
+    // validation end
+
+    var id = req.params.venue_id;
+    tomodel.id = id;
+    tomodel.image_path = req.app.get('post_image_path');
+    var data = [];
+
+    // model start
+    model.fetchAllPostVenue(tomodel,function(err, rows){
+      if(err) throw err;
+      if(rows.length > 0){
+        data = rows;
+      }
+      res.json({status: 1,data:data});
+    });
+    // model end
+
+  }
+
+
 // add favourite to venue end
 module.exports = new venue();
