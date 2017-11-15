@@ -1,0 +1,36 @@
+{
+  "tpay": {
+    "site":{
+      "url":"http://localhost:8082",
+      "port":8082,
+      "views":"ejs"
+    },
+    "dbConfig": {
+      "host": "localhost",
+      "port": 3306,
+      "dbname": "tpay",
+      "user": "root",
+      "password": "password"
+    },
+    "sendgrid": {
+      "from":"tpay@tpay.com.au",
+      "host":"smtp.sendgrid.com",
+      "port":"587",
+      "method":"SMTP",
+      "user":"TPAY",
+      "password":"airbus320"
+    },
+    "twilio":{
+      "sid":"ACc7d0bce245b26aedfa67a17931e1c544",
+      "token":"a4579cd2c30ce5ec808f448cbbf8732f"
+    },
+    "redis":{
+      "host":"localhost",
+      "port":6379,
+      "ttl":864000
+    },
+    "morgan":{
+      "mode":"dev"
+    }
+  }
+}

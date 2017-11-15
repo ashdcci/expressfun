@@ -27,7 +27,7 @@ function getQueryCache(key, next) {
 }
 
 function setQueryCache(key, ttl, data, next) {
-	console.log('set key=> '+key);
+	
 	client.setex('mysql:' + key, ttl, JSON.stringify(data), function(err, result) {
 		if (err || !result) return next(err);
 		return next(null, result);

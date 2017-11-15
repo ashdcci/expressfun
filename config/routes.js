@@ -8,7 +8,9 @@ module.exports = function(app){
 // console.log(app);
 	//Routes+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	app.post('/api/login',authController.login);
-	app.get('/', homeController.main);
+	app.get('/', function(req, res, next){
+		res.render('index',{token:'hjvgghsvdhgchjbkjsdcbkj'});
+	});
 	app.get('/reset_password/:token',authController.resetPassword);
 	app.post('/updatePassword',authController.updateForgotPassword);
 	app.post('/upload_s3',homeController.upload_s3);
